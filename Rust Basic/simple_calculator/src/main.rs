@@ -23,7 +23,7 @@ fn main() {
         .read_line(&mut operation)
         .expect("Failed to get operation");
 
-    for signal in signals_aritimetic.into_iter() {
+    for signal in signals_aritimetic {
         if let Some(_result) = operation.find(signal) {
             match signal {
                 '-' => perform_operation(&operation, signal, |x, y| x - y),
