@@ -1,5 +1,18 @@
 use std::io;
+
+fn perform_operation(expression: &str, signal: char, op: impl Fn(f32, f32) -> f32) {
+    let values: Vec<&str> = expression.split(signal).collect();
+    let f = op(
+        values[0].trim().parse::<f32>().unwrap(),
+        values[1].trim().parse::<f32>().unwrap(),
+    );
+    println!("The result is ->: {}", f);
+}
+
 fn main() {
+    println!("============================= Simples calculator Example =====================================");
+    println!("Your operations need to follow the pattern as in the example: '5-2', '5+2', '5*2', '5/2'");
+
     let signals_aritimetic = ['+', '-', '/', '*'];
 
     println!("Enter your operation: ");
@@ -12,35 +25,12 @@ fn main() {
 
     for signal in signals_aritimetic.into_iter() {
         if let Some(_result) = operation.find(signal) {
-
             match signal {
-                '-' => {
-                    let values: Vec<&str> = operation.split(signal).collect();
-                    let f = values[0].trim().parse::<f32>().unwrap()
-                        - values[1].trim().parse::<f32>().unwrap();
-                    println!("The result is ->: {}", f);
-                }
-                '+' => {
-                    let values: Vec<&str> = operation.split(signal).collect();
-                    let f = values[0].trim().parse::<f32>().unwrap()
-                        + values[1].trim().parse::<f32>().unwrap();
-                    println!("The result is ->: {}", f);
-                }
-                '*' => {
-                    let values: Vec<&str> = operation.split(signal).collect();
-                    let f = values[0].trim().parse::<f32>().unwrap()
-                        * values[1].trim().parse::<f32>().unwrap();
-                    println!("The result is ->: {}", f);
-                }
-                '/' => {
-                    let values: Vec<&str> = operation.split(signal).collect();
-                    let f = values[0].trim().parse::<f32>().unwrap()
-                        / values[1].trim().parse::<f32>().unwrap();
-                    println!("The result is ->: {}", f);
-                }
-                _ => {
-                    println!("can't understand the operation");
-                }
+                '-' => perform_operation(&operation, signal, |x, y| x - y),
+                '+' => perform_operation(&operation, signal, |x, y| x + y),
+                '*' => perform_operation(&operation, signal, |x, y| x * y),
+                '/' => perform_operation(&operation, signal, |x, y| x / y),
+                _ => todo!(),
             };
         }
     }
