@@ -30,7 +30,7 @@ Para criar o projeto vamos usar o comando `cargo new --bin simple_calculator`, e
         Enter your operation: 
         ➜  simple_calculator$ 
     ```
-    Podemos notar que o programa apenas exibiu a mensagem  "Enter your operation: " e logo em seguida encerrou impedindo que o uruario entrasse com a operação, para resolver isso vamos importar para o escopo do programa a biblioteca de entrada/saída `io` que percente a biblioteca padrão conhecida como `std`:
+    Podemos notar que o programa apenas exibiu a mensagem  "Enter your operation: " e logo em seguida encerrou impedindo que o usuário entrasse com a operação, para resolver isso vamos importar para o escopo do programa a biblioteca de entrada/saída `io` que pertence a biblioteca padrão conhecida como `std`:
 
     ```rust 
         use std::io;
@@ -49,13 +49,13 @@ Para criar o projeto vamos usar o comando `cargo new --bin simple_calculator`, e
     ```
     Antes de implementar de fato `io` precisamos alocar um espaço na mémoria para guardar o valor digitado pelo usuário para isso será necessário criar uma variável mutavél com `let mut operation = String::new();`, note que usamos `String::new()`, isso cria uma nova string vazia chamada `operation` na qual podemos carregar dados. 
     
-    Agora vamos usar `io` para capturar a operação digitada pelo usuario
+    Agora vamos usar `io` para capturar a operação digitada pelo usuário
     ```rust
             io::stdin()
             .read_line(&mut operation)
             .expect("Failed to get operation");
     ``` 
-    como parâmetro de `io::stdin().read_line(&mut operation)` passamos uma referencia da variável criada anteiormente `operation` onde `&mut` antes do nome da variável caracteriza que está fazendo referencia para uma variável mutável, caso `operation` não fosse mutavél não teria necessidade de usar o `&mut`  ficando dessa maneira `&operation`.
+    como parâmetro de `io::stdin().read_line(&mut operation)` passamos uma referencia da variável criada anteriormente `operation` onde `&mut` antes do nome da variável caracteriza que está fazendo referencia para uma variável mutável, caso `operation` não fosse mutavél não teria necessidade de usar o `&mut`  ficando dessa maneira `&operation`.
 
     Nosso programa já recebe uma entrada, porém ainda não executa operações, o próximo passao é identificar qual operação aritmética o usuario deseja, analisando a entrada que será armazenada na nossa variável `operation`, as operações devem seguir o padrão de uma calculadora real exemplo: 1+1, 2-1, 4/2, 2*2.
 
@@ -75,7 +75,7 @@ Para criar o projeto vamos usar o comando `cargo new --bin simple_calculator`, e
 
         }
     ``` 
-    Agora precisamos compara o sinal que consta em `operation` com os sinais em nossa lista, vamos usar um laço `for` e dentro do `for` verificar se o `sinal` está 
+    Agora precisamos comparar o sinal que consta em `operation` com os sinais em nossa lista, vamos usar um laço `for` e dentro do `for` verificar se o `sinal` está 
     presente na `String` alocanda em `operation`, passando o `sinal` como parâmetro de find dessa maneira `find(sinal)` .
     ```rust 
         fn main() {
@@ -112,7 +112,7 @@ Precisamos fazer um `split` em `expression` para dividir os valores a seres calc
         let values: Vec<&str> = expression.split(signal).collect();
     }
 ```
-em seguida vamos atribuir a uma variável `f` a implementação de `op` mencionada anteriormente que tem como parâmetros dois `f32`  como valores do vetor `values` no indice 0 e indice 1, convertidos de `string`  para `f32` usando `values[0].trim().parse::<f32>()`  o `.tim()` serve para remove espaços, possibilitando a realização de operações aritméticas.
+em seguida vamos atribuir a uma variável `f` a implementação de `op` mencionada anteriormente que tem como parâmetros dois `f32`  como valores do vetor `values` no indice 0 e indice 1, convertidos de `string`  para `f32` usando `values[0].trim().parse::<f32>()`  o `.tim()` serve para remover espaços, possibilitando a realização de operações aritméticas.
 
 ```rust
      fn perform_operation(expression: &str, signal: char, op: impl Fn(f32, f32) -> f32) {
@@ -135,9 +135,9 @@ match signal {
                 _ => todo!(),
             };
 ```
- passamos como parâmetro  para função `perform_operation` uma referencia a `&operation`, `signal` e depois vamos usar `closures` para implementar o próximo parâmetro que é a função `op` que recebe dois `f32` e retorna um `f32`, esse `|x, y| x - y` é chamado de closures,  cada closure que você escreve no programa tem seu proprio tipo, então se você tiver dois `|x, y| x + y` no programa, cada um vai ter um tipo diferente, um código que recebe closure como parâmetro tem que ser genérico, pra receber closures de cada tipo.
+ passamos como parâmetro  para função `perform_operation` uma referência a `&operation`, `signal` e depois vamos usar `closures` para implementar o próximo parâmetro que é a função `op` que recebe dois `f32` e retorna um `f32`, esse `|x, y| x - y` é chamado de closures,  cada closure que você escreve no programa tem seu proprio tipo, então se você tiver dois `|x, y| x + y` no programa, cada um vai ter um tipo diferente, um código que recebe closure como parâmetro tem que ser genérico, pra receber closures de cada tipo.
 
-Podemos roda o programa para ver a saída com `cargo run`.
+Podemos rodar o programa para ver a saída com `cargo run`.
 
 ```
 ➜  simple_calculator $ cargo run
